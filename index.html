@@ -50,15 +50,6 @@
 
 
 
-        
-        
-<!-- Colócalo en tu <head> -->
-<audio id="tickSound" preload="auto">
-  <source src="https://assets.mixkit.co/active_storage/sfx/2089/2089-preview.mp3" type="audio/mpeg">
-  <!-- Sonido alternativo por si falla el primero -->
-  <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
-</audio>
-
 /* Estilos para el popup */
 .popup-overlay {
     position: fixed;
@@ -499,42 +490,6 @@ li:nth-child(27) { rotate: 406.94deg; }
 
 
 
-// Manejar clics en enlaces
-document.querySelectorAll('a[href^="http"]').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const url = this.getAttribute('href');
-        
-        // Mostrar popup
-        document.getElementById('popupOverlay').style.display = 'block';
-        document.getElementById('popupContent').src = url;
-        
-        // Bloquear scroll del body
-        document.body.style.overflow = 'hidden';
-    });
-});
-
-// Cerrar popup
-document.getElementById('closePopup').addEventListener('click', function() {
-    document.getElementById('popupOverlay').style.display = 'none';
-    document.getElementById('popupContent').src = '';
-    document.body.style.overflow = 'auto';
-});
-
-// Cerrar al hacer clic fuera del contenido
-document.getElementById('popupOverlay').addEventListener('click', function(e) {
-    if (e.target === this) {
-        this.style.display = 'none';
-        document.getElementById('popupContent').src = '';
-        document.body.style.overflow = 'auto';
-    }
-});
-
-
-
-
-
-
 
 // Variables de control
 let lastScrollTime = 0;
@@ -572,11 +527,7 @@ window.addEventListener('wheel', (e) => {
   }, 200);
 });
 
-
-
-        
-        
-        
+ 
     </script>
 </body>
 </html>
