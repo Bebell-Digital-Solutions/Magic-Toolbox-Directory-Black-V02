@@ -47,6 +47,60 @@
             animation-timeline: scroll(nearest block);
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ebff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>'), auto;
         }
+
+
+
+/* Estilos para el popup */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    display: none;
+}
+
+.popup-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.popup-content {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.close-popup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 10000;
+    background: #8B3EFF;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(235, 255, 0, 0.7);
+}
+
+.close-popup:hover {
+    background: #ebff00;
+    color: #000;
+}
+
+
+
+
+        
         
         /* Bigger cursor on hover */
         a:hover, .logo-container:hover {
@@ -404,6 +458,17 @@ li:nth-child(27) { rotate: 406.94deg; }
         <li><a href="https://magictoolbox.net/todos" onclick="playClickSound()" target="_blank"><span>T</span><span>o</span><span>d</span><span>a</span><span>s</span> <span>l</span><span>a</span><span>s</span> <span>C</span><span>a</span><span>t</span><span>e</span><span>g</span><span>o</span><span>r</span><span>í</span><span>a</span><span>s</span></a></li>
     </ul>
 
+
+
+
+    <!-- Popup Container -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-container">
+        <span class="close-popup" id="closePopup">&times;</span>
+        <iframe class="popup-content" id="popupContent" frameborder="0"></iframe>
+    </div>
+</div>
+
     <em>Tu navegador no soporta las últimas características de scroll ☹️</em>
 
    
@@ -422,6 +487,40 @@ li:nth-child(27) { rotate: 406.94deg; }
         });
 
 
+
+// Manejar clics en enlaces
+document.querySelectorAll('a[href^="http"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const url = this.getAttribute('href');
+        
+        // Mostrar popup
+        document.getElementById('popupOverlay').style.display = 'block';
+        document.getElementById('popupContent').src = url;
+        
+        // Bloquear scroll del body
+        document.body.style.overflow = 'hidden';
+    });
+});
+
+// Cerrar popup
+document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('popupOverlay').style.display = 'none';
+    document.getElementById('popupContent').src = '';
+    document.body.style.overflow = 'auto';
+});
+
+// Cerrar al hacer clic fuera del contenido
+document.getElementById('popupOverlay').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.style.display = 'none';
+        document.getElementById('popupContent').src = '';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+
+        
         
     </script>
 </body>
