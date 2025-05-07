@@ -417,6 +417,9 @@ li:nth-child(27) { rotate: 406.94deg; }
     </style>
 </head>
 <body>
+
+
+
     
     <!-- Audio element for click sound -->
     <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2125/2125-preview.mp3" preload="auto"></audio>
@@ -462,7 +465,6 @@ li:nth-child(27) { rotate: 406.94deg; }
 
 
 
-
     <!-- Popup Container -->
 <div class="popup-overlay" id="popupOverlay">
     <div class="popup-container">
@@ -489,7 +491,39 @@ li:nth-child(27) { rotate: 406.94deg; }
         });
 
 
+// Manejar clics en enlaces
+document.querySelectorAll('a[href^="http"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const url = this.getAttribute('href');
+        
+        // Mostrar popup
+        document.getElementById('popupOverlay').style.display = 'block';
+        document.getElementById('popupContent').src = url;
+        
+        // Bloquear scroll del body
+        document.body.style.overflow = 'hidden';
+    });
+});
 
+// Cerrar popup
+document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('popupOverlay').style.display = 'none';
+    document.getElementById('popupContent').src = '';
+    document.body.style.overflow = 'auto';
+});
+
+// Cerrar al hacer clic fuera del contenido
+document.getElementById('popupOverlay').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.style.display = 'none';
+        document.getElementById('popupContent').src = '';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+
+        
 
 // Variables de control
 let lastScrollTime = 0;
@@ -526,6 +560,9 @@ window.addEventListener('wheel', (e) => {
     tickSound.pause();
   }, 200);
 });
+
+
+        
 
  
     </script>
