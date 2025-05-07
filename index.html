@@ -50,6 +50,15 @@
 
 
 
+        
+        
+<!-- Colócalo en tu <head> -->
+<audio id="tickSound" preload="auto">
+  <source src="https://assets.mixkit.co/active_storage/sfx/2089/2089-preview.mp3" type="audio/mpeg">
+  <!-- Sonido alternativo por si falla el primero -->
+  <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
+</audio>
+
 /* Estilos para el popup */
 .popup-overlay {
     position: fixed;
@@ -62,6 +71,8 @@
     display: none;
 }
 
+
+        
 .popup-container {
     position: relative;
     width: 100%;
@@ -520,6 +531,50 @@ document.getElementById('popupOverlay').addEventListener('click', function(e) {
 });
 
 
+
+
+
+
+
+// Variables de control
+let lastScrollTime = 0;
+let scrollTimeout;
+const tickSound = document.getElementById('tickSound');
+const scrollThreshold = 100; // Ajusta para mayor/menor sensibilidad
+
+// Función para reproducir tic
+function playTick() {
+  tickSound.currentTime = 0; // Reinicia el sonido
+  tickSound.volume = 0.3; // Volumen ajustable (0-1)
+  tickSound.play().catch(e => console.log("El sonido no pudo reproducirse:", e));
+}
+
+// Control de desplazamiento
+window.addEventListener('wheel', (e) => {
+  const now = Date.now();
+  
+  // Limitar la frecuencia de tics
+  if (now - lastScrollTime > scrollThreshold) {
+    playTick();
+    lastScrollTime = now;
+    
+    // Ajustar volumen/pitch según velocidad (opcional)
+    const speed = Math.abs(e.deltaY);
+    tickSound.volume = Math.min(0.1 + speed/500, 0.6);
+  }
+  
+  // Limpiar timeout anterior
+  clearTimeout(scrollTimeout);
+  
+  // Detener sonido después de pausa
+  scrollTimeout = setTimeout(() => {
+    tickSound.pause();
+  }, 200);
+});
+
+
+
+        
         
         
     </script>
